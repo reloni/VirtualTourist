@@ -15,6 +15,10 @@ class MapController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+		
+		if let center = UserDefaults.standard.userMapPosition, let span = UserDefaults.standard.userMapSpan {
+			mapView.setRegion(MKCoordinateRegion(center: center, span: span), animated: true)
+		}
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -47,5 +51,10 @@ extension MapController : MKMapViewDelegate {
 	}
 	
 	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+	}
+	
+	func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+		UserDefaults.standard.userMapPosition = mapView.region.center
+		UserDefaults.standard.userMapSpan = mapView.region.span
 	}
 }
