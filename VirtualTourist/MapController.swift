@@ -19,6 +19,10 @@ class MapController: UIViewController {
 		if let center = UserDefaults.standard.userMapPosition, let span = UserDefaults.standard.userMapSpan {
 			mapView.setRegion(MKCoordinateRegion(center: center, span: span), animated: true)
 		}
+		
+		let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addPin))
+		recognizer.minimumPressDuration = 2
+		mapView.addGestureRecognizer(recognizer)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -27,6 +31,26 @@ class MapController: UIViewController {
 	}
 
 	@IBAction func editTap(_ sender: Any) {
+	}
+	
+	func addPin(gestureRecognizer: UIGestureRecognizer) {
+		guard gestureRecognizer.state == .ended else { return }
+		
+		let coordinate = mapView.convert(gestureRecognizer.location(in: mapView), toCoordinateFrom: mapView)
+		
+		CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) { placemarks, error in
+			let positionDescription: String = {
+				guard let thoroughfare = placemarks?.first?.thoroughfare,
+					let subThoroughfare = placemarks?.first?.subThoroughfare else { return "Unknown position" }
+				
+				return "\(thoroughfare) \(subThoroughfare)"
+			}()
+			
+			let annotation = MKPointAnnotation()
+			annotation.title = positionDescription
+			annotation.coordinate = coordinate
+			self.mapView.addAnnotation(annotation)
+		}
 	}
 }
 
@@ -41,7 +65,6 @@ extension MapController : MKMapViewDelegate {
 				let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
 				pin.canShowCallout = true
 				pin.animatesDrop = true
-				pin.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
 				return pin
 			}
 			return view
