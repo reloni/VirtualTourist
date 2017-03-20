@@ -34,24 +34,43 @@
                                 </items>
                             </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="XNE-Wr-5I5">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="543"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="T2s-LB-dLS"/>
                                 </connections>
                             </mapView>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ski-Qm-2p0">
+                                <rect key="frame" x="0.0" y="607" width="375" height="60"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="vm8-ED-gmw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Tap Pins to Delete">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="deletePin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0jk-rR-Pc2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="XNE-Wr-5I5" firstAttribute="top" secondItem="Uyz-S5-MxL" secondAttribute="bottom" id="0Is-HT-KB0"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="XNE-Wr-5I5" secondAttribute="bottom" id="6gM-bR-9aC"/>
                             <constraint firstAttribute="trailing" secondItem="Uyz-S5-MxL" secondAttribute="trailing" id="Gss-j7-CVW"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ski-Qm-2p0" secondAttribute="bottom" id="IEM-ol-fqp"/>
                             <constraint firstItem="Uyz-S5-MxL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Tbz-Yk-wAt"/>
                             <constraint firstItem="Uyz-S5-MxL" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Xox-CO-hYb"/>
                             <constraint firstAttribute="trailing" secondItem="XNE-Wr-5I5" secondAttribute="trailing" id="oIm-wR-tax"/>
+                            <constraint firstAttribute="trailing" secondItem="ski-Qm-2p0" secondAttribute="trailing" id="pCm-tR-lJ5"/>
+                            <constraint firstItem="ski-Qm-2p0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rfE-jZ-ao1"/>
+                            <constraint firstItem="ski-Qm-2p0" firstAttribute="top" secondItem="XNE-Wr-5I5" secondAttribute="bottom" id="w77-hl-ODG"/>
                             <constraint firstItem="XNE-Wr-5I5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="z8o-oo-QTU"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="deleteButtonHeightConstraint" destination="vm8-ED-gmw" id="rDy-AD-0K9"/>
+                        <outlet property="editButton" destination="ghb-5G-fgO" id="GyL-K1-QXw"/>
                         <outlet property="mapView" destination="XNE-Wr-5I5" id="8j7-zK-2ve"/>
                     </connections>
                 </viewController>

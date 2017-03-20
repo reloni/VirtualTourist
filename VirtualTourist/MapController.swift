@@ -10,18 +10,29 @@ import UIKit
 import MapKit
 
 class MapController: UIViewController {
+	enum PinMode {
+		case add
+		case delete
+	}
+	
 	@IBOutlet weak var mapView: MKMapView!
+	@IBOutlet weak var deleteButtonHeightConstraint: NSLayoutConstraint!
+	@IBOutlet weak var editButton: UIBarButtonItem!
+	
+	var mode = PinMode.add
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
+		
+		deleteButtonHeightConstraint.constant = 0
 		
 		if let center = UserDefaults.standard.userMapPosition, let span = UserDefaults.standard.userMapSpan {
 			mapView.setRegion(MKCoordinateRegion(center: center, span: span), animated: true)
 		}
 		
 		let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addPin))
-		recognizer.minimumPressDuration = 2
+		recognizer.minimumPressDuration = 1.5
 		mapView.addGestureRecognizer(recognizer)
 	}
 
@@ -31,9 +42,22 @@ class MapController: UIViewController {
 	}
 
 	@IBAction func editTap(_ sender: Any) {
+		if mode == .add {
+			deleteButtonHeightConstraint.constant = 60
+			mode = .delete
+			editButton.title = "Done"
+		} else {
+			deleteButtonHeightConstraint.constant = 0
+			mode = .add
+			editButton.title = "Edit"
+		}
+		
+		UIView.animate(withDuration: 0.5, animations: { self.view.layoutIfNeeded() })
 	}
 	
 	func addPin(gestureRecognizer: UIGestureRecognizer) {
+		guard mode == .add else { return }
+		
 		guard gestureRecognizer.state == .ended else { return }
 		
 		let coordinate = mapView.convert(gestureRecognizer.location(in: mapView), toCoordinateFrom: mapView)
@@ -51,6 +75,9 @@ class MapController: UIViewController {
 			annotation.coordinate = coordinate
 			self.mapView.addAnnotation(annotation)
 		}
+	}
+	
+	@IBAction func deletePin(_ sender: Any) {
 	}
 }
 
@@ -74,6 +101,13 @@ extension MapController : MKMapViewDelegate {
 	}
 	
 	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+	
+	}
+	
+	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+		if mode == .delete, let annotation = view.annotation {
+			mapView.removeAnnotation(annotation)
+		}
 	}
 	
 	func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
