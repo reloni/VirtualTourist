@@ -69,7 +69,10 @@ class MapController: UIViewController {
 		}
 	}
 	
-	@IBAction func deletePin(_ sender: Any) {
+	func showDetailController(forLocation location: CLLocationCoordinate2D) {
+		let controller = storyboard!.instantiateViewController(withIdentifier: "DetailController") as! DetailController
+		controller.location = location
+		navigationController?.pushViewController(controller, animated: true)
 	}
 }
 
@@ -97,13 +100,11 @@ extension MapController : MKMapViewDelegate {
 	}
 	
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+		guard let annotation = view.annotation else { return }
+		
 		switch mode {
-		case .add:
-			navigationController?.pushViewController(storyboard!.instantiateViewController(withIdentifier: "DetailController"), animated: true)
-		case .delete:
-			if let annotation = view.annotation {
-				mapView.removeAnnotation(annotation)
-			}
+		case .add: showDetailController(forLocation: annotation.coordinate)
+		case .delete: mapView.removeAnnotation(annotation)
 		}
 	}
 	

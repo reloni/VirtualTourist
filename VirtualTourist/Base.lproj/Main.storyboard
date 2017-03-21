@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -37,9 +38,6 @@
                                 <state key="normal" title="Tap Pins to Delete">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="deletePin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0jk-rR-Pc2"/>
-                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -86,10 +84,10 @@
             </objects>
             <point key="canvasLocation" x="-893" y="458"/>
         </scene>
-        <!--View Controller-->
+        <!--Detail Controller-->
         <scene sceneID="PF2-bc-daC">
             <objects>
-                <viewController storyboardIdentifier="DetailController" id="n9G-01-KZc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailController" id="n9G-01-KZc" customClass="DetailController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="D47-LO-Zwv"/>
                         <viewControllerLayoutGuide type="bottom" id="4zX-WO-zPc"/>
@@ -97,8 +95,47 @@
                     <view key="view" contentMode="scaleToFill" id="u29-NY-5bu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rb2-hE-DFP">
+                                <rect key="frame" x="0.0" y="64" width="375" height="158.5"/>
+                            </mapView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KMa-uF-YoA">
+                                <rect key="frame" x="0.0" y="223" width="375" height="444"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JAr-SN-p9l">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qbK-Fc-e5i">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Rb2-hE-DFP" firstAttribute="top" secondItem="D47-LO-Zwv" secondAttribute="bottom" id="3uU-Hu-pZR"/>
+                            <constraint firstItem="KMa-uF-YoA" firstAttribute="top" secondItem="Rb2-hE-DFP" secondAttribute="bottom" id="90P-Vq-QNj"/>
+                            <constraint firstAttribute="trailing" secondItem="Rb2-hE-DFP" secondAttribute="trailing" id="B2O-5Q-bNb"/>
+                            <constraint firstItem="Rb2-hE-DFP" firstAttribute="leading" secondItem="u29-NY-5bu" secondAttribute="leading" id="I7E-ls-XxG"/>
+                            <constraint firstAttribute="trailing" secondItem="KMa-uF-YoA" secondAttribute="trailing" id="KTp-fN-KCf"/>
+                            <constraint firstItem="4zX-WO-zPc" firstAttribute="top" secondItem="KMa-uF-YoA" secondAttribute="bottom" id="MOh-3o-OFH"/>
+                            <constraint firstItem="4zX-WO-zPc" firstAttribute="top" secondItem="Rb2-hE-DFP" secondAttribute="bottom" multiplier="3" id="dgV-wX-Jdu"/>
+                            <constraint firstItem="KMa-uF-YoA" firstAttribute="leading" secondItem="u29-NY-5bu" secondAttribute="leading" id="spK-Vb-Y3u"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="KMa-uF-YoA" id="Vva-wU-ieS"/>
+                        <outlet property="mapView" destination="Rb2-hE-DFP" id="9fK-cL-EeL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3e8-Y0-h8T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

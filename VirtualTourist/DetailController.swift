@@ -7,23 +7,17 @@
 //
 
 import UIKit
+import MapKit
 
 class DetailController: UIViewController {
+	@IBOutlet weak var mapView: MKMapView!
+	@IBOutlet weak var collectionView: UICollectionView!
+	
+	var location: CLLocationCoordinate2D!
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+		mapView.setRegion(MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
+	}
 }
