@@ -32,7 +32,7 @@ class MapController: UIViewController {
 		}
 		
 		let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addPin))
-		recognizer.minimumPressDuration = 1.5
+		recognizer.minimumPressDuration = 1.0
 		mapView.addGestureRecognizer(recognizer)
 	}
 
@@ -63,15 +63,7 @@ class MapController: UIViewController {
 		let coordinate = mapView.convert(gestureRecognizer.location(in: mapView), toCoordinateFrom: mapView)
 		
 		CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) { placemarks, error in
-			let positionDescription: String = {
-				guard let thoroughfare = placemarks?.first?.thoroughfare,
-					let subThoroughfare = placemarks?.first?.subThoroughfare else { return "Unknown position" }
-				
-				return "\(thoroughfare) \(subThoroughfare)"
-			}()
-			
 			let annotation = MKPointAnnotation()
-			annotation.title = positionDescription
 			annotation.coordinate = coordinate
 			self.mapView.addAnnotation(annotation)
 		}
@@ -90,7 +82,7 @@ extension MapController : MKMapViewDelegate {
 		let pinView: MKPinAnnotationView = {
 			guard let view = mapView.dequeueReusableAnnotationView(withIdentifier: "pin") as? MKPinAnnotationView else {
 				let pin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
-				pin.canShowCallout = true
+				pin.canShowCallout = false
 				pin.animatesDrop = true
 				return pin
 			}
@@ -105,8 +97,13 @@ extension MapController : MKMapViewDelegate {
 	}
 	
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-		if mode == .delete, let annotation = view.annotation {
-			mapView.removeAnnotation(annotation)
+		switch mode {
+		case .add:
+			navigationController?.pushViewController(storyboard!.instantiateViewController(withIdentifier: "DetailController"), animated: true)
+		case .delete:
+			if let annotation = view.annotation {
+				mapView.removeAnnotation(annotation)
+			}
 		}
 	}
 	
