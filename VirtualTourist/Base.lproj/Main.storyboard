@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -103,21 +104,47 @@
                                 <rect key="frame" x="0.0" y="223" width="375" height="444"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JAr-SN-p9l">
-                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="itemSize" width="214" height="150"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="qbK-Fc-e5i">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ImageCell" id="qbK-Fc-e5i" customClass="ImageCell" customModule="VirtualTourist" customModuleProvider="target">
+                                        <rect key="frame" x="81" y="0.0" width="214" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="214" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BHn-Nk-JUe">
+                                                    <rect key="frame" x="0.0" y="0.0" width="214" height="150"/>
+                                                </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7Px-Bq-Tdh">
+                                                    <rect key="frame" x="8" y="8" width="198" height="134"/>
+                                                </activityIndicatorView>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="7Px-Bq-Tdh" firstAttribute="top" secondItem="qbK-Fc-e5i" secondAttribute="topMargin" id="3xg-cd-Rh1"/>
+                                            <constraint firstItem="7Px-Bq-Tdh" firstAttribute="leading" secondItem="qbK-Fc-e5i" secondAttribute="leadingMargin" id="ass-QZ-Vah"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="7Px-Bq-Tdh" secondAttribute="bottom" id="cv1-bg-Ij0"/>
+                                            <constraint firstAttribute="trailing" secondItem="BHn-Nk-JUe" secondAttribute="trailing" id="hQQ-B0-QcL"/>
+                                            <constraint firstAttribute="bottom" secondItem="BHn-Nk-JUe" secondAttribute="bottom" id="lTi-Os-zeu"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="7Px-Bq-Tdh" secondAttribute="trailing" id="qXv-ES-HhO"/>
+                                            <constraint firstItem="BHn-Nk-JUe" firstAttribute="top" secondItem="qbK-Fc-e5i" secondAttribute="top" id="tXd-QX-WbR"/>
+                                            <constraint firstItem="BHn-Nk-JUe" firstAttribute="leading" secondItem="qbK-Fc-e5i" secondAttribute="leading" id="vA2-zS-rBU"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="7Px-Bq-Tdh" id="eaA-sU-DUK"/>
+                                            <outlet property="imageView" destination="BHn-Nk-JUe" id="bBL-sJ-wqA"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="n9G-01-KZc" id="aE1-6s-AIh"/>
+                                    <outlet property="delegate" destination="n9G-01-KZc" id="lId-sp-dYf"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -139,7 +166,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3e8-Y0-h8T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="855" y="61"/>
+            <point key="canvasLocation" x="853.60000000000002" y="60.719640179910051"/>
         </scene>
     </scenes>
 </document>

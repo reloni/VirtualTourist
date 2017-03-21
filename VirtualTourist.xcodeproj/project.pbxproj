@@ -15,6 +15,7 @@
 		6E1B1FBC1E3E54BF00AE37F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E1B1FBA1E3E54BF00AE37F8 /* LaunchScreen.storyboard */; };
 		6ECD44A71E3EEDA0004D01EC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECD44A61E3EEDA0004D01EC /* Extensions.swift */; };
 		6EEB64411E81A21F0073C0A4 /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB64401E81A21F0073C0A4 /* DetailController.swift */; };
+		6EEB64431E81ADFA0073C0A4 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EEB64421E81ADFA0073C0A4 /* ImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		6E1B1FBD1E3E54BF00AE37F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6ECD44A61E3EEDA0004D01EC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6EEB64401E81A21F0073C0A4 /* DetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
+		6EEB64421E81ADFA0073C0A4 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				6E1B1FAE1E3E54BF00AE37F8 /* AppDelegate.swift */,
 				6E1B1FB01E3E54BF00AE37F8 /* MapController.swift */,
 				6EEB64401E81A21F0073C0A4 /* DetailController.swift */,
+				6EEB64421E81ADFA0073C0A4 /* ImageCell.swift */,
 				6E1B1FB21E3E54BF00AE37F8 /* Main.storyboard */,
 				6E1B1FB81E3E54BF00AE37F8 /* Assets.xcassets */,
 				6E1B1FBA1E3E54BF00AE37F8 /* LaunchScreen.storyboard */,
@@ -159,6 +162,7 @@
 				6E1B1FAF1E3E54BF00AE37F8 /* AppDelegate.swift in Sources */,
 				6E1B1FB71E3E54BF00AE37F8 /* VirtualTourist.xcdatamodeld in Sources */,
 				6ECD44A71E3EEDA0004D01EC /* Extensions.swift in Sources */,
+				6EEB64431E81ADFA0073C0A4 /* ImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
