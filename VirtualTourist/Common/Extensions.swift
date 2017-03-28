@@ -9,6 +9,19 @@
 import Foundation
 import MapKit
 
+public extension URL {
+	init?(baseUrl: String, parameters: [String: String]? = nil) {
+		var components = URLComponents(string: baseUrl)
+		components?.queryItems = parameters?.map { key, value in
+			URLQueryItem(name: key, value: value)
+		}
+		
+		guard let absoluteString = components?.url?.absoluteString else { return nil }
+		
+		self.init(string: absoluteString)
+	}
+}
+
 extension UserDefaults {
 	var userMapPosition: CLLocationCoordinate2D? {
 		get {
@@ -32,5 +45,26 @@ extension UserDefaults {
 			set(newValue?.latitudeDelta, forKey: "MapSpanLatitudeDelta")
 			set(newValue?.longitudeDelta, forKey: "MapSpanLongitudeDelta")
 		}
+	}
+}
+
+extension URLRequest {
+	static func flickrPhotos() -> URLRequest {
+		let url = URL(baseUrl: "https://api.flickr.com/services/rest",
+		              parameters: ["method": "flickr.photos.search",
+		                           "safe_search": "1",
+		                           "extras": "url_m",
+		                           "per_page": "10",
+		                           "page": "1",
+		                           "format": "json",
+		                           "nojsoncallback": "1",
+		                           "api_key": "aabe16685306a6964bad3b38648b9192",
+		                           "bbox": "2.28,48.84,2.30,48.86"])!
+		return URLRequest(url: url)
+	}
+}
+extension Data {
+	func toJson() throws -> [String: Any] {
+		return try JSONSerialization.jsonObject(with: self, options: []) as! [String: Any]
 	}
 }

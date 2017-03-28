@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+let flickrClient = FlickrClient()
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

@@ -22,6 +22,10 @@ class DetailController: UIViewController {
 		super.viewDidLoad()
 
 		mapView.setRegion(MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
+		
+		flickrClient.loadImagesList { result in
+			print(result)
+		}
 	}
 }
 
