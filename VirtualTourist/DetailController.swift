@@ -18,13 +18,20 @@ class DetailController: UIViewController {
 	let sectionInsets = UIEdgeInsets(top: 10.0, left: 15.0, bottom: 10.0, right: 15.0)
 	let itemsPerRow: CGFloat = 3
 	
+	var images = [FlickrImage]()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
 		mapView.setRegion(MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
 		
-		flickrClient.loadImagesList { result in
-			print(result)
+		flickrClient.loadImagesList { [weak self] result in
+			if case ApiResult.error(let error) = result {
+				print("Error: \(error.localizedDescription)")
+			} else if case ApiResult.flickrImages(let images) = result {
+				self?.images = images
+				DispatchQueue.main.async { self?.collectionView.reloadSections(IndexSet(integer: 0)) }
+			}
 		}
 	}
 }
@@ -35,12 +42,26 @@ extension DetailController : UICollectionViewDataSource {
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 15
+		return images.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
-		cell.activityIndicator.startAnimating()
+		let image = images[indexPath.row]
+		if let img = image.image {
+			cell.imageView.image = img
+		} else {
+			cell.activityIndicator.startAnimating()
+			flickrClient.load(image: image) { result in
+				if case ApiResult.flickrImage(let loaded) = result, let newImage = loaded.image {
+					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+						cell.activityIndicator.stopAnimating()
+						cell.activityIndicator.isHidden = true
+						cell.imageView.image = newImage
+					}
+				}
+			}
+		}
 		return cell
 	}
 }

@@ -22,6 +22,12 @@ public extension URL {
 	}
 }
 
+extension Dictionary {
+	subscript(jsonKey key: Key) -> [String:Any]? {
+		return self[key] as? [String:Any]
+	}
+}
+
 extension UserDefaults {
 	var userMapPosition: CLLocationCoordinate2D? {
 		get {
@@ -54,7 +60,7 @@ extension URLRequest {
 		              parameters: ["method": "flickr.photos.search",
 		                           "safe_search": "1",
 		                           "extras": "url_m",
-		                           "per_page": "10",
+		                           "per_page": "20",
 		                           "page": "1",
 		                           "format": "json",
 		                           "nojsoncallback": "1",
