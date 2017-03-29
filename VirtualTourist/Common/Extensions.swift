@@ -55,7 +55,10 @@ extension UserDefaults {
 }
 
 extension URLRequest {
-	static func flickrPhotos() -> URLRequest {
+	static func flickrPhotos(forLocation location: CLLocationCoordinate2D) -> URLRequest {
+		let bbox =
+			(minLon: location.longitude - 0.01, minLat: location.latitude - 0.01, maxLon: location.longitude + 0.01, maxLat: location.latitude + 0.01)
+		
 		let url = URL(baseUrl: "https://api.flickr.com/services/rest",
 		              parameters: ["method": "flickr.photos.search",
 		                           "safe_search": "1",
@@ -65,7 +68,8 @@ extension URLRequest {
 		                           "format": "json",
 		                           "nojsoncallback": "1",
 		                           "api_key": "aabe16685306a6964bad3b38648b9192",
-		                           "bbox": "2.28,48.84,2.30,48.86"])!
+		                           "bbox": "\(bbox.minLon),\(bbox.minLat),\(bbox.maxLon),\(bbox.maxLat)"])!
+
 		return URLRequest(url: url)
 	}
 }

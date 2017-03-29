@@ -25,7 +25,7 @@ class DetailController: UIViewController {
 
 		mapView.setRegion(MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
 		
-		flickrClient.loadImagesList { [weak self] result in
+		flickrClient.loadImagesList(forLocation: location) { [weak self] result in
 			if case ApiResult.error(let error) = result {
 				print("Error: \(error.localizedDescription)")
 			} else if case ApiResult.flickrImages(let images) = result {

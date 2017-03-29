@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 typealias UrlRequestResult = (Data?, URLResponse?, Error?) -> ()
 
@@ -66,8 +67,8 @@ final class FlickrClient {
 		self.networkClient = networkClient
 	}
 	
-	func loadImagesList(completion: @escaping (ApiResult) -> Void) {
-		let request = URLRequest.flickrPhotos()
+	func loadImagesList(forLocation location: CLLocationCoordinate2D, completion: @escaping (ApiResult) -> Void) {
+		let request = URLRequest.flickrPhotos(forLocation: location)
 		networkClient.execute(request, completion: FlickrClient.parseResponse(responseHandler: { result in
 			switch result {
 			case .success(let json):
