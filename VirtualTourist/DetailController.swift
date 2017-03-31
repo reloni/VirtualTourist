@@ -24,7 +24,14 @@ class DetailController: UIViewController {
 		super.viewDidLoad()
 
 		mapView.setRegion(MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
-		
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		loadImages()
+	}
+	
+	func loadImages() {
 		flickrClient.loadImagesList(forLocation: location) { [weak self] result in
 			if case ApiResult.error(let error) = result {
 				print("Error: \(error.localizedDescription)")
@@ -34,6 +41,13 @@ class DetailController: UIViewController {
 			}
 		}
 	}
+	
+	@IBAction func newCollection(_ sender: Any) {
+		images.removeAll()
+		collectionView.reloadSections(IndexSet(integer: 0))
+		loadImages()
+	}
+	
 }
 
 extension DetailController : UICollectionViewDataSource {
@@ -56,7 +70,7 @@ extension DetailController : UICollectionViewDataSource {
 				cell.activityIndicator.stopAnimating()
 				cell.activityIndicator.isHidden = true
 				if case ApiResult.flickrImage(let loaded) = result, let newImage = loaded.image {
-					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
 						cell.imageView.image = newImage
 					}
 				}
