@@ -54,21 +54,40 @@ extension UserDefaults {
 	}
 }
 
+extension CLLocationCoordinate2D {
+	var bbox: String {
+		let box = (minLon: longitude - 0.01, minLat: latitude - 0.01, maxLon: longitude + 0.01, maxLat: latitude + 0.01)
+		return "\(box.minLon),\(box.minLat),\(box.maxLon),\(box.maxLat)"
+	}
+}
+
 extension URLRequest {
-	static func flickrPhotos(forLocation location: CLLocationCoordinate2D) -> URLRequest {
-		let bbox =
-			(minLon: location.longitude - 0.01, minLat: location.latitude - 0.01, maxLon: location.longitude + 0.01, maxLat: location.latitude + 0.01)
-		
+	static func flickrPhotosPagesCount(forLocation location: CLLocationCoordinate2D) -> URLRequest {
 		let url = URL(baseUrl: "https://api.flickr.com/services/rest",
 		              parameters: ["method": "flickr.photos.search",
 		                           "safe_search": "1",
 		                           "extras": "url_m",
-		                           "per_page": "20",
-		                           "page": "\(arc4random_uniform(200))",
+		                           "per_page": "1",
+		                           "page": "1",
 		                           "format": "json",
 		                           "nojsoncallback": "1",
 		                           "api_key": "aabe16685306a6964bad3b38648b9192",
-		                           "bbox": "\(bbox.minLon),\(bbox.minLat),\(bbox.maxLon),\(bbox.maxLat)"])!
+		                           "bbox": location.bbox])!
+		
+		return URLRequest(url: url)
+	}
+	
+	static func flickrPhotos(forLocation location: CLLocationCoordinate2D, page: UInt32 = 1, itemsPerPage: UInt32 = 20) -> URLRequest {
+		let url = URL(baseUrl: "https://api.flickr.com/services/rest",
+		              parameters: ["method": "flickr.photos.search",
+		                           "safe_search": "1",
+		                           "extras": "url_m",
+		                           "per_page": "\(itemsPerPage)",
+		                           "page": "\(page)",
+		                           "format": "json",
+		                           "nojsoncallback": "1",
+		                           "api_key": "aabe16685306a6964bad3b38648b9192",
+		                           "bbox": location.bbox])!
 
 		return URLRequest(url: url)
 	}

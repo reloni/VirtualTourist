@@ -68,17 +68,31 @@ final class FlickrClient {
 	}
 	
 	func loadImagesList(forLocation location: CLLocationCoordinate2D, completion: @escaping (ApiResult) -> Void) {
+		loadImagePagesCount(forLocation: location) { [unowned self] pagesCount in
+			let request = URLRequest.flickrPhotos(forLocation: location, page: arc4random_uniform(pagesCount - 1), itemsPerPage: 20)
+			self.networkClient.execute(request, completion: FlickrClient.parseResponse(responseHandler: { result in
+				switch result {
+				case .success(let json):
+					guard let images = json[jsonKey: "photos"]?["photo"] as? [[String: Any]] else {
+						completion(ApiResult.flickrImages([]))
+						return
+					}
+					
+					completion(ApiResult.flickrImages(images.map { FlickrImage(json: $0) }.flatMap { $0 }))
+				case .error(_, let error, _): completion(.error(error))
+				}
+			}))
+		}
+	}
+	
+	func loadImagePagesCount(forLocation location: CLLocationCoordinate2D, completion: @escaping (UInt32) -> Void) {
 		let request = URLRequest.flickrPhotos(forLocation: location)
 		networkClient.execute(request, completion: FlickrClient.parseResponse(responseHandler: { result in
 			switch result {
 			case .success(let json):
-				guard let images = json[jsonKey: "photos"]?["photo"] as? [[String: Any]] else {
-					completion(ApiResult.flickrImages([]))
-					return
-				}
-
-				completion(ApiResult.flickrImages(images.map { FlickrImage(json: $0) }.flatMap { $0 }))
-			case .error(_, let error, _): completion(.error(error))
+				guard let total = UInt32(json[jsonKey: "photos"]?["total"] as? String ?? "0") else { return completion(0) }
+				completion(Swift.min(total / 20, 200))
+			case .error(_, _, _): completion(0)
 			}
 		}))
 	}

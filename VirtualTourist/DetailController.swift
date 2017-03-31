@@ -67,8 +67,10 @@ extension DetailController : UICollectionViewDataSource {
 		} else {
 			cell.activityIndicator.startAnimating()
 			flickrClient.load(image: image) { result in
-				cell.activityIndicator.stopAnimating()
-				cell.activityIndicator.isHidden = true
+				DispatchQueue.main.async {
+					cell.activityIndicator.stopAnimating()
+					cell.activityIndicator.isHidden = true
+				}
 				if case ApiResult.flickrImage(let loaded) = result, let newImage = loaded.image {
 					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
 						cell.imageView.image = newImage
