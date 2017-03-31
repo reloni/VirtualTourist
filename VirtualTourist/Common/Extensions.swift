@@ -64,7 +64,7 @@ extension URLRequest {
 		                           "safe_search": "1",
 		                           "extras": "url_m",
 		                           "per_page": "20",
-		                           "page": "1",
+		                           "page": "\(arc4random_uniform(200))",
 		                           "format": "json",
 		                           "nojsoncallback": "1",
 		                           "api_key": "aabe16685306a6964bad3b38648b9192",

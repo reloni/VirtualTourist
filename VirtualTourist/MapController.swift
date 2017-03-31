@@ -102,6 +102,8 @@ extension MapController : MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
 		guard let annotation = view.annotation else { return }
 		
+		mapView.deselectAnnotation(annotation, animated: false)
+		
 		switch mode {
 		case .add: showDetailController(forLocation: annotation.coordinate)
 		case .delete: mapView.removeAnnotation(annotation)
