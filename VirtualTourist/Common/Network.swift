@@ -13,17 +13,17 @@ import MapKit
 typealias UrlRequestResult = (Data?, URLResponse?, Error?) -> ()
 
 struct FlickrImage {
-	let id: String
+	//let id: String
 	let url: URL
 	let image: UIImage?
 }
 
 extension FlickrImage {
 	init?(json: [String: Any]) {
-		guard let id: String = json["id"] as? String else { return nil }
+		//guard let id: String = json["id"] as? String else { return nil }
 		guard let url: URL = URL(string: json["url_m"] as? String ?? "") else { return nil }
 		
-		self.id = id
+		//self.id = id
 		self.url = url
 		self.image = nil
 	}
@@ -96,7 +96,7 @@ final class FlickrClient {
 			}
 		}))
 	}
-	
+	/*
 	func load(image: FlickrImage, completion: @escaping (ApiResult) -> Void) {
 		let request = URLRequest(url: image.url)
 		networkClient.execute(request) { result in
@@ -106,6 +106,18 @@ final class FlickrClient {
 			
 			let uiImage = UIImage(data: result.0!)
 			completion(.flickrImage(FlickrImage(id: image.id, url: image.url, image: uiImage)))
+		}
+	}*/
+	
+	func load(image: Photo, completion: @escaping (ApiResult) -> Void) {
+		let request = URLRequest(url: image.url)
+		networkClient.execute(request) { result in
+			if case NetworkRequestResult.error(_, let error, _)? = FlickrClient.checkError(data: result.0, response: result.1, error: result.2) {
+				completion(.error(error))
+			}
+			
+			let uiImage = UIImage(data: result.0!)
+			completion(.flickrImage(FlickrImage(url: image.url, image: uiImage)))
 		}
 	}
 	

@@ -32,4 +32,19 @@ final class DataStore {
 		try! context.save()
 		return location
 	}
+	
+	@discardableResult
+	func addPhoto(to location: MapLocation, url: URL, rawPhoto: Data?) -> Photo {
+		let photo = Photo(context: context)
+		photo.data = rawPhoto as NSData?
+		photo.urlString = url.absoluteString
+		photo.location = location
+		try! context.save()
+		return photo
+	}
+	
+	func update(photo: Photo, withData data: Data?) {
+		photo.data = data as NSData?
+		try! context.save()
+	}
 }

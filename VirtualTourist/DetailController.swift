@@ -13,31 +13,44 @@ class DetailController: UIViewController {
 	@IBOutlet weak var mapView: MKMapView!
 	@IBOutlet weak var collectionView: UICollectionView!
 	
-	var location: CLLocationCoordinate2D!
+	var location: MapLocation!
 	
 	let sectionInsets = UIEdgeInsets(top: 10.0, left: 15.0, bottom: 10.0, right: 15.0)
 	let itemsPerRow: CGFloat = 3
 	
-	var images = [FlickrImage]()
+	var images = [Photo]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		mapView.setRegion(MKCoordinateRegion(center: location, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
+		mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
+		
+		images = location.photos?.allObjects.map { $0 as! Photo } ?? []
+		
+		print("photos count: \(images.count)")
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		loadImages()
+		if images.count == 0 {
+			loadImages()
+		}
 	}
 	
 	func loadImages() {
-		flickrClient.loadImagesList(forLocation: location) { [weak self] result in
+		flickrClient.loadImagesList(forLocation: location.coordinate) { [weak self] result in
 			if case ApiResult.error(let error) = result {
 				print("Error: \(error.localizedDescription)")
 			} else if case ApiResult.flickrImages(let images) = result {
-				self?.images = images
-				DispatchQueue.main.async { self?.collectionView.reloadSections(IndexSet(integer: 0)) }
+				DispatchQueue.main.async {
+					guard let object = self else { return }
+					images.forEach {
+						object.dataStore.addPhoto(to: object.location, url: $0.url, rawPhoto: nil)
+					}
+					self?.images = object.location.photos?.allObjects.map { $0 as! Photo } ?? []
+					
+					self?.collectionView.reloadSections(IndexSet(integer: 0))
+				}
 			}
 		}
 	}
@@ -73,6 +86,9 @@ extension DetailController : UICollectionViewDataSource {
 				}
 				if case ApiResult.flickrImage(let loaded) = result, let newImage = loaded.image {
 					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
+//						self.dataStore.addPhoto(to: self.location, url: image.url, rawPhoto: UIImageJPEGRepresentation(newImage, 1))
+						self.dataStore.update(photo: image, withData: UIImageJPEGRepresentation(newImage, 1))
+						
 						cell.imageView.image = newImage
 					}
 				}

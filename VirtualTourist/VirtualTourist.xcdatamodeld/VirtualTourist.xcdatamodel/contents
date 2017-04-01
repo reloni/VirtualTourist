@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="MapLocation" representedClassName="MapLocation" syncable="YES" codeGenerationType="class">
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="location" inverseEntity="Photo" syncable="YES"/>
+    </entity>
+    <entity name="Photo" representedClassName="Photo" parentEntity="MapLocation" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="urlString" attributeType="String" syncable="YES"/>
+        <relationship name="location" maxCount="1" deletionRule="Nullify" destinationEntity="MapLocation" inverseName="photos" inverseEntity="MapLocation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MapLocation" positionX="-63" positionY="-36" width="128" height="73"/>
+        <element name="MapLocation" positionX="-63" positionY="-36" width="128" height="88"/>
+        <element name="Photo" positionX="-54" positionY="-9" width="128" height="90"/>
     </elements>
 </model>

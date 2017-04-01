@@ -15,6 +15,17 @@ extension MapLocation {
 	}
 }
 
+extension Photo {
+	var url: URL {
+		return URL(baseUrl: urlString!)!
+	}
+	
+	var image: UIImage? {
+		guard let data = data as Data? else { return nil }
+		return UIImage(data: data)
+	}
+}
+
 extension UIViewController {
 	var dataStore: DataStore {
 		return (UIApplication.shared.delegate as! AppDelegate).dataStore

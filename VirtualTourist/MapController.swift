@@ -79,7 +79,7 @@ class MapController: UIViewController {
 		mapView.addAnnotation(annotation)
 	}
 	
-	func showDetailController(forLocation location: CLLocationCoordinate2D) {
+	func showDetailController(forLocation location: MapLocation) {
 		let controller = storyboard!.instantiateViewController(withIdentifier: "DetailController") as! DetailController
 		controller.location = location
 		navigationController?.pushViewController(controller, animated: true)
@@ -110,14 +110,14 @@ extension MapController : MKMapViewDelegate {
 	}
 	
 	func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-		guard let annotation = view.annotation else { return }
+		guard let annotation = view.annotation as? MapLocationAnnotation else { return }
 		
 		mapView.deselectAnnotation(annotation, animated: false)
 		
 		switch mode {
-		case .add: showDetailController(forLocation: annotation.coordinate)
+		case .add: showDetailController(forLocation: annotation.mapLocation)
 		case .delete:
-			dataStore.remove(location: (annotation as! MapLocationAnnotation).mapLocation)
+			dataStore.remove(location: annotation.mapLocation)
 			mapView.removeAnnotation(annotation)
 		}
 	}
