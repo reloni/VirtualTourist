@@ -9,6 +9,18 @@
 import Foundation
 import MapKit
 
+extension MapLocation {
+	var coordinate: CLLocationCoordinate2D {
+		return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+	}
+}
+
+extension UIViewController {
+	var dataStore: DataStore {
+		return (UIApplication.shared.delegate as! AppDelegate).dataStore
+	}
+}
+
 public extension URL {
 	init?(baseUrl: String, parameters: [String: String]? = nil) {
 		var components = URLComponents(string: baseUrl)

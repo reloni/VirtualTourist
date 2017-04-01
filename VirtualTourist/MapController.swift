@@ -32,8 +32,18 @@ class MapController: UIViewController {
 		}
 		
 		let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addPin))
-		recognizer.minimumPressDuration = 1.0
+		recognizer.minimumPressDuration = 0.8
 		mapView.addGestureRecognizer(recognizer)
+		
+		loadLocations()
+	}
+	
+	func loadLocations() {
+		dataStore.locations().forEach { 
+			let annotation = MapLocationAnnotation(mapLocation: $0)
+			annotation.coordinate = $0.coordinate
+			self.mapView.addAnnotation(annotation)
+		}
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -62,11 +72,11 @@ class MapController: UIViewController {
 		
 		let coordinate = mapView.convert(gestureRecognizer.location(in: mapView), toCoordinateFrom: mapView)
 		
-		CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)) { placemarks, error in
-			let annotation = MKPointAnnotation()
-			annotation.coordinate = coordinate
-			self.mapView.addAnnotation(annotation)
-		}
+		let location = dataStore.addLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+		
+		let annotation = MapLocationAnnotation(mapLocation: location)
+		annotation.coordinate = location.coordinate
+		mapView.addAnnotation(annotation)
 	}
 	
 	func showDetailController(forLocation location: CLLocationCoordinate2D) {
@@ -106,7 +116,9 @@ extension MapController : MKMapViewDelegate {
 		
 		switch mode {
 		case .add: showDetailController(forLocation: annotation.coordinate)
-		case .delete: mapView.removeAnnotation(annotation)
+		case .delete:
+			dataStore.remove(location: (annotation as! MapLocationAnnotation).mapLocation)
+			mapView.removeAnnotation(annotation)
 		}
 	}
 	

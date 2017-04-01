@@ -15,10 +15,21 @@ let flickrClient = FlickrClient()
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
+	
+	lazy var dataStore: DataStore = {
+		return DataStore(context: self.persistentContainer.viewContext)
+	}()
 
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		// Override point for customization after application launch.
+		
+		try! persistentContainer.viewContext.save()
+		
+		let result = try! persistentContainer.viewContext.fetch(NSFetchRequest(entityName: "MapLocation")).map { $0 as! MapLocation }
+		print("count: \(result.count)")
+		print("first lat: \(result.first?.latitude ?? -1)")
+		
 		return true
 	}
 
