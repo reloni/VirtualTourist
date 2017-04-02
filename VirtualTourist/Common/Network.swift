@@ -67,7 +67,8 @@ final class FlickrClient {
 	
 	func loadImagesList(forLocation location: CLLocationCoordinate2D, completion: @escaping (ApiResult) -> Void) {
 		loadImagePagesCount(forLocation: location) { [unowned self] pagesCount in
-			let request = URLRequest.flickrPhotos(forLocation: location, page: arc4random_uniform(pagesCount - 1), itemsPerPage: 20)
+			let maxPage = pagesCount > 0 ? pagesCount : 1
+			let request = URLRequest.flickrPhotos(forLocation: location, page: arc4random_uniform(maxPage), itemsPerPage: 20)
 			self.networkClient.execute(request, completion: FlickrClient.parseResponse(responseHandler: { result in
 				switch result {
 				case .success(let json):

@@ -98,10 +98,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rb2-hE-DFP">
-                                <rect key="frame" x="0.0" y="64" width="375" height="158.5"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="126.5"/>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="KMa-uF-YoA">
-                                <rect key="frame" x="0.0" y="223" width="375" height="414"/>
+                                <rect key="frame" x="0.0" y="191" width="375" height="431"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="JAr-SN-p9l">
                                     <size key="itemSize" width="214" height="150"/>
@@ -147,7 +147,10 @@
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0Z-T9-laP">
-                                <rect key="frame" x="16" y="637" width="343" height="30"/>
+                                <rect key="frame" x="16" y="622" width="343" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="H9p-pa-SCC"/>
+                                </constraints>
                                 <state key="normal" title="New Collection"/>
                                 <connections>
                                     <action selector="newCollection:" destination="n9G-01-KZc" eventType="touchUpInside" id="ru2-F3-UOA"/>
@@ -163,7 +166,7 @@
                             <constraint firstItem="Rb2-hE-DFP" firstAttribute="leading" secondItem="u29-NY-5bu" secondAttribute="leading" id="I7E-ls-XxG"/>
                             <constraint firstAttribute="trailing" secondItem="KMa-uF-YoA" secondAttribute="trailing" id="KTp-fN-KCf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="v0Z-T9-laP" secondAttribute="trailing" id="Nwh-Sd-zkX"/>
-                            <constraint firstItem="4zX-WO-zPc" firstAttribute="top" secondItem="Rb2-hE-DFP" secondAttribute="bottom" multiplier="3" id="dgV-wX-Jdu"/>
+                            <constraint firstItem="4zX-WO-zPc" firstAttribute="top" secondItem="Rb2-hE-DFP" secondAttribute="bottom" multiplier="3.5" id="dgV-wX-Jdu"/>
                             <constraint firstItem="v0Z-T9-laP" firstAttribute="leading" secondItem="u29-NY-5bu" secondAttribute="leadingMargin" id="fmU-7X-FYO"/>
                             <constraint firstItem="KMa-uF-YoA" firstAttribute="leading" secondItem="u29-NY-5bu" secondAttribute="leading" id="spK-Vb-Y3u"/>
                             <constraint firstItem="KMa-uF-YoA" firstAttribute="bottom" secondItem="v0Z-T9-laP" secondAttribute="top" id="xrq-B7-5Kb"/>

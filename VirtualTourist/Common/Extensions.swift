@@ -79,7 +79,7 @@ extension UserDefaults {
 
 extension CLLocationCoordinate2D {
 	var bbox: String {
-		let box = (minLon: longitude - 0.01, minLat: latitude - 0.01, maxLon: longitude + 0.01, maxLat: latitude + 0.01)
+		let box = (minLon: longitude - 0.03, minLat: latitude - 0.03, maxLon: longitude + 0.03, maxLat: latitude + 0.03)
 		return "\(box.minLon),\(box.minLat),\(box.maxLon),\(box.maxLat)"
 	}
 }

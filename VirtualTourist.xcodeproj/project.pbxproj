@@ -35,7 +35,7 @@
 		6E619A381E8AD55600F4CD02 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		6ECD44A61E3EEDA0004D01EC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6EEB64401E81A21F0073C0A4 /* DetailController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailController.swift; sourceTree = "<group>"; };
-		6EEB64421E81ADFA0073C0A4 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		6EEB64421E81ADFA0073C0A4 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCell.swift; path = ../ImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +72,6 @@
 				6E1B1FAE1E3E54BF00AE37F8 /* AppDelegate.swift */,
 				6E1B1FB01E3E54BF00AE37F8 /* MapController.swift */,
 				6EEB64401E81A21F0073C0A4 /* DetailController.swift */,
-				6EEB64421E81ADFA0073C0A4 /* ImageCell.swift */,
 				6E1B1FB21E3E54BF00AE37F8 /* Main.storyboard */,
 				6E1B1FB81E3E54BF00AE37F8 /* Assets.xcassets */,
 				6E1B1FBA1E3E54BF00AE37F8 /* LaunchScreen.storyboard */,
@@ -85,6 +84,7 @@
 		6ECD44A51E3EED70004D01EC /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				6EEB64421E81ADFA0073C0A4 /* ImageCell.swift */,
 				6ECD44A61E3EEDA0004D01EC /* Extensions.swift */,
 				6E619A381E8AD55600F4CD02 /* Network.swift */,
 				6E04167F1E8FFD00001F2711 /* DataStore.swift */,
