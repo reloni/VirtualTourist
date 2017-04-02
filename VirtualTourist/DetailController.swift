@@ -26,8 +26,6 @@ class DetailController: UIViewController {
 		mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
 		
 		images = location.photos?.allObjects.map { $0 as! Photo } ?? []
-		
-		print("photos count: \(images.count)")
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -74,20 +72,19 @@ extension DetailController : UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
-		let image = images[indexPath.row]
-		if let img = image.image {
+		let photo = images[indexPath.row]
+		if let img = photo.image {
 			cell.imageView.image = img
 		} else {
 			cell.activityIndicator.startAnimating()
-			flickrClient.load(image: image) { result in
+			flickrClient.load(image: photo) { result in
 				DispatchQueue.main.async {
 					cell.activityIndicator.stopAnimating()
 					cell.activityIndicator.isHidden = true
 				}
 				if case ApiResult.flickrImage(let loaded) = result, let newImage = loaded.image {
 					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
-//						self.dataStore.addPhoto(to: self.location, url: image.url, rawPhoto: UIImageJPEGRepresentation(newImage, 1))
-						self.dataStore.update(photo: image, withData: UIImageJPEGRepresentation(newImage, 1))
+						self.dataStore.update(photo: photo, withData: UIImageJPEGRepresentation(newImage, 1))
 						
 						cell.imageView.image = newImage
 					}
