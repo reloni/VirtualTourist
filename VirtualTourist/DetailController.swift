@@ -54,6 +54,7 @@ class DetailController: UIViewController {
 	}
 	
 	@IBAction func newCollection(_ sender: Any) {
+		dataStore.deletePhotos(forLocation: location)
 		images.removeAll()
 		collectionView.reloadSections(IndexSet(integer: 0))
 		loadImages()

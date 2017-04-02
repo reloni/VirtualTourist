@@ -47,4 +47,9 @@ final class DataStore {
 		photo.data = data as NSData?
 		try! context.save()
 	}
+	
+	func deletePhotos(forLocation location: MapLocation) {
+		location.photos?.allObjects.forEach { context.delete($0 as! Photo) }
+		try! context.save()
+	}
 }
