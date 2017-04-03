@@ -32,7 +32,7 @@ class MapController: UIViewController {
 		}
 		
 		let recognizer = UILongPressGestureRecognizer(target: self, action: #selector(addPin))
-		recognizer.minimumPressDuration = 0.8
+		recognizer.minimumPressDuration = 1.0
 		mapView.addGestureRecognizer(recognizer)
 		
 		loadLocations()
@@ -68,7 +68,7 @@ class MapController: UIViewController {
 	func addPin(gestureRecognizer: UIGestureRecognizer) {
 		guard mode == .add else { return }
 		
-		guard gestureRecognizer.state == .ended else { return }
+		guard gestureRecognizer.state == .began else { return }
 		
 		let coordinate = mapView.convert(gestureRecognizer.location(in: mapView), toCoordinateFrom: mapView)
 		

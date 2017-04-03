@@ -78,7 +78,7 @@
                     </navigationBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="260-sC-lfA"/>
-                        <segue destination="n9G-01-KZc" kind="show" id="xZS-CU-C3Z"/>
+                        <segue destination="n9G-01-KZc" kind="show" identifier="ShowDetails" id="xZS-CU-C3Z"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gSa-SN-87i" userLabel="First Responder" sceneMemberID="firstResponder"/>
