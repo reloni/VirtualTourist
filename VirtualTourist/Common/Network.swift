@@ -107,7 +107,9 @@ final class FlickrClient {
 			}
 			
 			let uiImage = UIImage(data: result.0!)
-			completion(.flickrImage(FlickrImage(url: image.url, image: uiImage)))
+			DispatchQueue.main.async {
+				completion(.flickrImage(FlickrImage(url: image.url, image: uiImage)))
+			}
 		}
 	}
 	
