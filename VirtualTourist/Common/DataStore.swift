@@ -52,4 +52,19 @@ final class DataStore {
 		location.photos?.allObjects.forEach { context.delete($0 as! Photo) }
 		try! context.save()
 	}
+	
+	func photos(for location: MapLocation) -> [Photo] {
+		return location.photos?.allObjects.map {
+			let photo = $0 as! Photo
+			photo.isSelected = false
+			return photo
+		} ?? []
+	}
+	
+	@discardableResult
+	func deleteSelectedPhotos(for location: MapLocation) -> [Photo] {
+		location.photos?.allObjects.map { $0 as! Photo }.filter { $0.isSelected }.forEach { context.delete($0) }
+		try! context.save()
+		return photos(for: location)
+	}
 }

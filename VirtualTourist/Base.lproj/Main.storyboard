@@ -153,7 +153,7 @@
                                 </constraints>
                                 <state key="normal" title="New Collection"/>
                                 <connections>
-                                    <action selector="newCollection:" destination="n9G-01-KZc" eventType="touchUpInside" id="ru2-F3-UOA"/>
+                                    <action selector="buttonTapped:" destination="n9G-01-KZc" eventType="touchUpInside" id="lvQ-fF-Kjq"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -175,6 +175,7 @@
                     <connections>
                         <outlet property="collectionView" destination="KMa-uF-YoA" id="Vva-wU-ieS"/>
                         <outlet property="mapView" destination="Rb2-hE-DFP" id="9fK-cL-EeL"/>
+                        <outlet property="newCollectionButton" destination="v0Z-T9-laP" id="CJJ-JA-1wX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3e8-Y0-h8T" userLabel="First Responder" sceneMemberID="firstResponder"/>

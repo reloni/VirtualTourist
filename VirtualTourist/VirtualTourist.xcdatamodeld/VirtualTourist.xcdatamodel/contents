@@ -7,11 +7,12 @@
     </entity>
     <entity name="Photo" representedClassName="Photo" parentEntity="MapLocation" syncable="YES" codeGenerationType="class">
         <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="isSelected" transient="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="urlString" attributeType="String" syncable="YES"/>
         <relationship name="location" maxCount="1" deletionRule="Nullify" destinationEntity="MapLocation" inverseName="photos" inverseEntity="MapLocation" syncable="YES"/>
     </entity>
     <elements>
         <element name="MapLocation" positionX="-63" positionY="-36" width="128" height="88"/>
-        <element name="Photo" positionX="-54" positionY="-9" width="128" height="90"/>
+        <element name="Photo" positionX="-54" positionY="-9" width="128" height="105"/>
     </elements>
 </model>

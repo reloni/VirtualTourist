@@ -10,10 +10,27 @@ import UIKit
 import MapKit
 
 class DetailController: UIViewController {
+	enum Mode {
+		case delete
+		case newCollection
+	}
+	
+	
 	@IBOutlet weak var mapView: MKMapView!
 	@IBOutlet weak var collectionView: UICollectionView!
+	@IBOutlet weak var newCollectionButton: UIButton!
 	
 	var location: MapLocation!
+	var mode: Mode {
+		return (images.first(where: { $0.isSelected }) == nil) ? .newCollection : .delete
+	}
+	
+	var buttonTitle: String {
+		switch mode {
+		case .delete: return "Remove Selected Pictures"
+		case .newCollection: return "New Collection"
+		}
+	}
 	
 	let sectionInsets = UIEdgeInsets(top: 10.0, left: 15.0, bottom: 10.0, right: 15.0)
 	let itemsPerRow: CGFloat = 3
@@ -25,7 +42,9 @@ class DetailController: UIViewController {
 
 		mapView.setRegion(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)), animated: false)
 		
-		images = location.photos?.allObjects.map { $0 as! Photo } ?? []
+		images = dataStore.photos(for: location)
+		
+		print("images: \(images.count)")
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -33,6 +52,11 @@ class DetailController: UIViewController {
 		if images.count == 0 {
 			loadImages()
 		}
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		
 	}
 	
 	func loadImages() {
@@ -53,13 +77,24 @@ class DetailController: UIViewController {
 		}
 	}
 	
-	@IBAction func newCollection(_ sender: Any) {
+	@IBAction func buttonTapped(_ sender: Any) {
+		switch mode {
+		case .delete: deleteSelectedPhotos()
+		case .newCollection: newCollection()
+		}
+	}
+	
+	func newCollection() {
 		dataStore.deletePhotos(forLocation: location)
 		images.removeAll()
 		collectionView.reloadSections(IndexSet(integer: 0))
 		loadImages()
 	}
 	
+	func deleteSelectedPhotos() {
+		images = dataStore.deleteSelectedPhotos(for: location)
+		collectionView.reloadSections(IndexSet(integer: 0))
+	}
 }
 
 extension DetailController : UICollectionViewDataSource {
@@ -75,19 +110,16 @@ extension DetailController : UICollectionViewDataSource {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
 		let photo = images[indexPath.row]
 		if let img = photo.image {
-			cell.imageView.image = img
+			cell.set(image: img)
 		} else {
-			cell.activityIndicator.startAnimating()
+			cell.loading()
 			flickrClient.load(image: photo) { result in
-				DispatchQueue.main.async {
-					cell.activityIndicator.stopAnimating()
-					cell.activityIndicator.isHidden = true
-				}
+
 				if case ApiResult.flickrImage(let loaded) = result, let newImage = loaded.image {
 					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
 						self.dataStore.update(photo: photo, withData: UIImageJPEGRepresentation(newImage, 1))
 						
-						cell.imageView.image = newImage
+						cell.set(image: newImage)
 					}
 				}
 			}
@@ -98,6 +130,10 @@ extension DetailController : UICollectionViewDataSource {
 
 extension DetailController : UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath) as! ImageCell
+		cell.changeSelectedState()
+		images[indexPath.row].isSelected = !images[indexPath.row].isSelected
+		newCollectionButton.setTitle(buttonTitle, for: .normal)
 	}
 }
 

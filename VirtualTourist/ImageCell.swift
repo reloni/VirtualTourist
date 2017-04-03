@@ -14,5 +14,40 @@ class ImageCell: UICollectionViewCell {
 	
 	override func prepareForReuse() {
 		imageView.image = nil
+		imageView.alpha = 1
+	}
+	
+	func loading() {
+		imageView.image = nil
+		imageView.alpha = 1
+		activityIndicator.isHidden = false
+		activityIndicator.startAnimating()
+	}
+	
+	func set(image: UIImage) {
+		imageView.alpha = 1
+		imageView.image = image
+		activityIndicator.stopAnimating()
+		activityIndicator.isHidden = true
+	}
+	
+	func select() {
+		imageView.alpha = 0.5
+	}
+	
+	func deselect() {
+		imageView.alpha = 1
+	}
+	
+	func changeSelectedState() {
+		if !isImageSelected {
+			select()
+		} else {
+			deselect()
+		}
+	}
+	
+	var isImageSelected: Bool {
+		return imageView.alpha != 1
 	}
 }
