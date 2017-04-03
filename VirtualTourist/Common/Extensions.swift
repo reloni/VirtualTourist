@@ -17,20 +17,24 @@ extension MapLocation {
 
 extension Photo {
 	var url: URL {
-		return URL(baseUrl: urlString!)!
+		return dataStore.sync {
+			return URL(baseUrl: urlString!)!
+		}
 	}
 	
 	var image: UIImage? {
-		guard let data = data as Data? else { return nil }
-		return UIImage(data: data)
+		return dataStore.sync {
+			guard let data = data as Data? else { return nil }
+			return UIImage(data: data)
+		}
 	}
 }
 
-extension UIViewController {
-	var dataStore: DataStore {
-		return (UIApplication.shared.delegate as! AppDelegate).dataStore
-	}
-}
+//extension UIViewController {
+//	var dataStore: DataStore {
+//		return (UIApplication.shared.delegate as! AppDelegate).dataStore
+//	}
+//}
 
 public extension URL {
 	init?(baseUrl: String, parameters: [String: String]? = nil) {

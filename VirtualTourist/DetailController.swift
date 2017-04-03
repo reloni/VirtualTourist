@@ -67,9 +67,11 @@ class DetailController: UIViewController {
 				DispatchQueue.main.async {
 					guard let object = self else { return }
 					images.forEach {
-						object.dataStore.addPhoto(to: object.location, url: $0.url, rawPhoto: nil)
+						dataStore.addPhoto(to: object.location, url: $0.url, rawPhoto: nil)
 					}
-					self?.images = object.location.photos?.allObjects.map { $0 as! Photo } ?? []
+					//self?.images = object.location.photos?.allObjects.map { $0 as! Photo } ?? []
+					
+					object.images = dataStore.photos(for: object.location)
 					
 					self?.collectionView.reloadSections(IndexSet(integer: 0))
 				}
@@ -114,7 +116,7 @@ extension DetailController : UICollectionViewDataSource {
 
 				if case ApiResult.flickrImage(let loaded) = result, let newImage = loaded.image {
 					DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
-						self.dataStore.update(photo: photo, withData: UIImageJPEGRepresentation(newImage, 1))
+						dataStore.update(photo: photo, withData: UIImageJPEGRepresentation(newImage, 1))
 						
 						cell.set(image: newImage)
 					}

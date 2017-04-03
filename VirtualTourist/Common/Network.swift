@@ -100,11 +100,15 @@ final class FlickrClient {
 	}
 	
 	func load(image: Photo, completion: @escaping (ApiResult) -> Void) {
+		
 		let request = URLRequest(url: image.url)
 		networkClient.execute(request) { result in
 			if case NetworkRequestResult.error(_, let error, _)? = FlickrClient.checkError(data: result.0, response: result.1, error: result.2) {
 				completion(.error(error))
 			}
+			
+			let p: Photo = dataStore.loadSync(id: image.objectID)
+			_ = p.url
 			
 			let uiImage = UIImage(data: result.0!)
 			completion(.flickrImage(FlickrImage(url: image.url, image: uiImage)))

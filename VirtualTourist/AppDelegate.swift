@@ -10,15 +10,16 @@ import UIKit
 import CoreData
 
 let flickrClient = FlickrClient()
+let dataStore = DataStore()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 	
-	lazy var dataStore: DataStore = {
-		return DataStore(context: self.persistentContainer.viewContext)
-	}()
+//	lazy var dataStore: DataStore = {
+//		return DataStore()
+//	}()
 
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
