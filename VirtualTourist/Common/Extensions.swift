@@ -85,6 +85,8 @@ extension CLLocationCoordinate2D {
 }
 
 extension URLRequest {
+	static let flickrApiKey = "aabe16685306a6964bad3b38648b9192"
+	
 	static func flickrPhotosPagesCount(forLocation location: CLLocationCoordinate2D) -> URLRequest {
 		let url = URL(baseUrl: "https://api.flickr.com/services/rest",
 		              parameters: ["method": "flickr.photos.search",
@@ -94,7 +96,7 @@ extension URLRequest {
 		                           "page": "1",
 		                           "format": "json",
 		                           "nojsoncallback": "1",
-		                           "api_key": "aabe16685306a6964bad3b38648b9192",
+		                           "api_key": flickrApiKey,
 		                           "bbox": location.bbox])!
 		
 		return URLRequest(url: url)
@@ -109,7 +111,7 @@ extension URLRequest {
 		                           "page": "\(page)",
 		                           "format": "json",
 		                           "nojsoncallback": "1",
-		                           "api_key": "aabe16685306a6964bad3b38648b9192",
+		                           "api_key": flickrApiKey,
 		                           "bbox": location.bbox])!
 
 		return URLRequest(url: url)

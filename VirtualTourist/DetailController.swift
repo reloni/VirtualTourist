@@ -94,6 +94,7 @@ class DetailController: UIViewController {
 	func deleteSelectedPhotos() {
 		images = dataStore.deleteSelectedPhotos(for: location)
 		collectionView.reloadSections(IndexSet(integer: 0))
+		newCollectionButton.setTitle(buttonTitle, for: .normal)
 	}
 }
 

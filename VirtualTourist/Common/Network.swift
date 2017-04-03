@@ -13,7 +13,6 @@ import MapKit
 typealias UrlRequestResult = (Data?, URLResponse?, Error?) -> ()
 
 struct FlickrImage {
-	//let id: String
 	let url: URL
 	let image: UIImage?
 }
@@ -66,9 +65,11 @@ final class FlickrClient {
 	}
 	
 	func loadImagesList(forLocation location: CLLocationCoordinate2D, completion: @escaping (ApiResult) -> Void) {
+		// requesting pages count
 		loadImagePagesCount(forLocation: location) { [unowned self] pagesCount in
 			let maxPage = pagesCount > 0 ? pagesCount : 1
 			let request = URLRequest.flickrPhotos(forLocation: location, page: arc4random_uniform(maxPage), itemsPerPage: 20)
+			// now requesting photos list
 			self.networkClient.execute(request, completion: FlickrClient.parseResponse(responseHandler: { result in
 				switch result {
 				case .success(let json):
@@ -84,12 +85,14 @@ final class FlickrClient {
 		}
 	}
 	
+	
 	func loadImagePagesCount(forLocation location: CLLocationCoordinate2D, completion: @escaping (UInt32) -> Void) {
 		let request = URLRequest.flickrPhotos(forLocation: location)
 		networkClient.execute(request, completion: FlickrClient.parseResponse(responseHandler: { result in
 			switch result {
 			case .success(let json):
 				guard let total = UInt32(json[jsonKey: "photos"]?["total"] as? String ?? "0") else { return completion(0) }
+				// load 20 pictures per page, so maximum pages count should be between 1 and 200
 				completion(Swift.min(total / 20, 200))
 			case .error(_, _, _): completion(0)
 			}
